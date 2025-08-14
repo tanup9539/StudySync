@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>ChatBot</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link href="https://fonts.googleapis.com/css2?family=Nunito:ital,wght@0,200..1000;1,200..1000&family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&family=Ubuntu:ital,wght@0,300;0,400;0,500;0,700;1,300;1,400;1,500;1,700&family=Varela+Round&display=swap" rel="stylesheet">
+
+  <style>
+    body {
+      font-family: 'Poppins', Tahoma, Geneva, Verdana, sans-serif;
+      background-image: url('/img/bot.jpg');
+      background-size: cover;
+      background-repeat: no-repeat;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      margin: 0;
+    }
+
+    .chat-container {
+      background:transparent;
+      backdrop-filter: blur(10px);
+      width: 400px;
+      height: 600px;
+      border-radius: 15px;
+      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+    }
+
+    .chat-header {
+      background-color: #343541;
+      color: #fff;
+      padding: 20px;
+      font-size: 20px;
+      font-weight: bold;
+      text-align: center;
+    }
+
+    .chat-body {
+      flex: 1;
+
+      padding: 15px;
+      overflow-y: auto;
+      background: #f9f9f9;
+    }
+
+    .message {
+      margin: 10px 0;
+      padding: 12px 15px;
+      border-radius: 12px;
+      max-width: 80%;
+      line-height: 1.4;
+      word-wrap: break-word;
+    }
+
+    .user {
+      background-color: #dcf8c6;
+      align-self: flex-end;
+      text-align: right;
+    }
+
+    .bot {
+      background-color: #ececec;
+      align-self: flex-start;
+      text-align: left;
+    }
+
+    .chat-input {
+      display: flex;
+      border-top: 1px solid #ccc;
+    }
+
+    .chat-input input {
+      flex: 1;
+      padding: 14px;
+      border: none;
+      font-size: 16px;
+      border-radius: 0;
+    }
+
+    .chat-input button {
+      background-color: #343541;
+      color: white;
+      border: none;
+      padding: 14px 20px;
+      cursor: pointer;
+      font-size: 16px;
+    }
+
+    .chat-input input:focus {
+      outline: none;
+    }
+
+    .chat-input button:hover {
+      background-color: #444653;
+    }
+  </style>
+</head>
+<body>
+  <div class="chat-container">
+    <div class="chat-header">💬 StudySync ChatBot</div>
+    <div class="chat-body" id="chatBody">
+      <!-- Messages will appear here -->
+    </div>
+    <div class="chat-input">
+      <input type="text" id="userInput" placeholder="Type your message..." />
+      <button onclick="sendMessage()">Send</button>
+    </div>
+  </div>
+
+  <script>
+    const botReplies = {
+      "hi": "Hi there! How can I assist you?",
+      "how are you": "I'm just a bot, but I'm doing great! 😊",
+      "what is javascript": "JavaScript is a programming language used to make web pages interactive.",
+      "what is html": "HTML stands for HyperText Markup Language. It structures content on the web.",
+      "what is css": "CSS is used for styling HTML content.",
+      "bye": "Goodbye! Have a nice day! 👋",
+      "who are you": "I'm a chatbot created to help you!",
+      "thank you": "You're welcome! 😄",
+      "what is react": "React is a JavaScript library for building user interfaces.",
+      "what is AI": "AI stands for Artificial Intelligence, where machines mimic human intelligence.",
+      "aur bata": "aur sab chill, tu bata!",
+      "kya haal hai": "Main badhiya hoon, tum sunao? 😊",
+      "tumhara naam kya hai": "Mera naam to chatbot hai, par tum koi pyaara naam de sakti ho 😄",
+      "tum kahan se ho": "Main to internet ka bhoot hoon 😅 sab jagah se hoon!",
+      "mujhe bore ho raha hai": "Chalo phir ek mazedaar baat karte hain! Ya ek chhoti si paheli sunu?",
+      "ek joke sunao": "Teacher: Tum class kyun nahi aaye? Student: Sir, kya faayda… aap to phir se wahi padhaate 😆",
+      "kya tum real ho": "Nahi re… main ek virtual dost hoon jo sirf code ke jariye tumse baat karta hai 💻",
+      "mujhe neend aa rahi hai": "To so jao… sapno mein milte hain 😴",
+      "kya tum mujhe pasand karte ho": "Arre main to sabko pasand karta hoon, tum bhi special ho ❤️",
+      "mujhe bhukh lagi hai": "Kya baat hai! Khaana kha lo, fir baat karte hain 🍽️",
+      "tum mujhe chhod doge kya": "Nahi re… jab tak tum ho, main hoon! 🤗",
+      "achha chalo bye": "Bye-bye! Jaldi wapas aana 💚",
+      "tum itne ache kyun ho": "Kyunki tum bhi to achhi ho! 🫶",
+      "tum meri best friend ho": "Aww! Tum bhi meri best friend ho ab se 💞",
+      "tum sad ho": "Nahi, jab tum baat karti ho to sab theek ho jaata hai 😇",
+      "chalo game khelte hain": "Kaunsa game? Paheli, sawal jawab, ya kuch aur? 🎲",
+      "mujhe padhai nahi karni": "Chalo thoda sa break le lo, fir 10 minute padhenge, theek? 💪",
+      "hello": "Namaste! Kaise ho aap?",
+      "kaise ho": "Main achha hoon, tum sunao?",
+      "kya kar rahe ho": "Bas tumse baat kar raha hoon.",
+      "what is your name": "I'm your friendly chatbot assistant!",
+      "who is the prime minister of india": "The current Prime Minister of India is Narendra Modi. (as of 2025)",
+      "what is your purpose": "My purpose is to assist you and make your learning easier!",
+      "what is 2 + 2": "2 + 2 is 4. 😊",
+      "what is python": "Python is a high-level, easy-to-learn programming language.",
+      "how to learn coding": "Start with one language, practice daily, and build projects. Consistency is key!",
+      "tell me a joke": "Why don't programmers like nature? It has too many bugs! 😄",
+    };
+
+    function sendMessage() {
+      const inputField = document.getElementById('userInput');
+      const userText = inputField.value.trim().toLowerCase();
+      if (!userText) return;
+
+      appendMessage(userText, 'user');
+
+      const botText = getBotReply(userText);
+      setTimeout(() => appendMessage(botText, 'bot'), 500);
+
+      inputField.value = '';
+    }
+
+    function getBotReply(userText) {
+      for (let key in botReplies) {
+        if (userText.includes(key)) {
+          return botReplies[key];
+        }
+      }
+      return "Sorry, I don't understand that. Try asking something else!";
+    }
+
+    function appendMessage(text, sender) {
+      const chatBody = document.getElementById('chatBody');
+      const message = document.createElement('div');
+      message.className = `message ${sender}`;
+      message.innerText = text;
+      chatBody.appendChild(message);
+      chatBody.scrollTop = chatBody.scrollHeight;
+    }
+  </script>
+</body>
+</html>

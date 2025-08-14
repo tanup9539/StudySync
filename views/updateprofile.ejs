@@ -1,0 +1,54 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>LearnTrack - Personalized Learning Tracker</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <main class="container">
+    <header>
+      <h1>👤 Update Your Profile</h1>
+      <p class="subtext">
+        Keep your profile details accurate so we can better personalize your experience and stay in touch with you.
+      </p>
+    </header>
+
+      <section class="cta-section">
+        <button onclick="window.location.href='/chatbot'">💬 Ask Your Bot</button>
+      </section>
+
+
+    <section class="features">
+      <div class="card">
+        <h3>🎯 Set Learning Goals</h3>
+        <p>Break your subjects into topics and set daily or weekly goals tailored to you.</p>
+      </div>
+      <div class="card">
+        <h3>📈 Track Your Progress</h3>
+        <p>Visualize your progress with graphs, streaks, and completion stats.</p>
+      </div>
+      <div class="card">
+        <h3>🏆 Stay Motivated</h3>
+        <p>Earn achievement badges and stay on top with smart reminders.</p>
+      </div>
+    </section>
+
+    <section class="form-section">
+      <form id="userForm">
+        <input type="text" id="name" placeholder="Your Name" "name" required />
+        <input type="email" id="email" name="email" placeholder="Your email" required />
+        <a href="./dashboard">
+          <button type="button">Submit</button>
+        </a>
+        <p id="responseMsg"></p> <!-- For error message display -->
+      </form>      
+    </section>
+  </main>
+  <script defer src="script.js"></script>
+
+</body>
+</html>

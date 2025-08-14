@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Learning Tracker</title>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Nunito:ital,wght@0,200..1000;1,200..1000&family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&family=Ubuntu:ital,wght@0,300;0,400;0,500;0,700;1,300;1,400;1,500;1,700&family=Varela+Round&display=swap" rel="stylesheet">
+
+  <style>
+    body {
+      font-family: 'Poppins', sans-serif;
+      margin: 0;
+      padding: 20px;
+      background-image: url(img/noise.png);
+
+    }
+    h1 {
+      text-align: center;
+    }
+    .container {
+      max-width: 600px;
+      margin: auto;
+    }
+    input, select, button {
+      padding: 8px;
+      margin: 5px;
+    }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 20px;
+    }
+    th, td {
+      border: 1px solid #ccc;
+      padding: 10px;
+      text-align: center;
+    }
+    .btn {
+      background-color: #4caf50;
+      color: white;
+      border: none;
+      cursor: pointer;
+    }
+    .btn:hover {
+      background-color: #45a049;
+    }
+    canvas {
+      margin-top: 40px;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>📚 Learning Tracker</h1>
+
+    <input id="subject" placeholder="Subject" />
+    <input id="topicName" placeholder="Topic" />
+    <select id="status">
+      <option value="Not Started">Not Started</option>
+      <option value="In Progress">In Progress</option>
+      <option value="Completed">Completed</option>
+    </select>
+    <button class="btn" onclick="addTopic()">Add Topic</button>
+    <button onclick="showDailyGoal()">🔔 Remind Me</button>
+
+    <table id="topicTable">
+      <thead>
+        <tr>
+          <th>Subject</th>
+          <th>Topic</th>
+          <th>Status</th>
+          <th>Action</th>
+        </tr>
+      </thead>
+      <tbody></tbody>
+    </table>
+
+    <canvas id="progressChart" height="100"></canvas>
+  </div>
+
+  <script>
+    let topics = loadTopicsFromLocalStorage();
+    renderTopics();
+    updateChart();
+
+    function addTopic() {
+      const subject = document.getElementById('subject').value;
+      const topicName = document.getElementById('topicName').value;
+      const status = document.getElementById('status').value;
+
+      if (!subject || !topicName) {
+        alert('Please fill all fields');
+        return;
+      }
+
+      const newTopic = { subject, name: topicName, status };
+      topics.push(newTopic);
+      saveTopicsToLocalStorage(topics);
+      renderTopics();
+      updateChart();
+    }
+
+    function renderTopics() {
+      const tbody = document.querySelector('#topicTable tbody');
+      tbody.innerHTML = '';
+      topics.forEach((topic, index) => {
+        const row = `<tr>
+          <td>${topic.subject}</td>
+          <td>${topic.name}</td>
+          <td>${topic.status}</td>
+          <td><button class="btn" onclick="deleteTopic(${index})">Delete</button></td>
+        </tr>`;
+        tbody.innerHTML += row;
+      });
+    }
+
+    function deleteTopic(index) {
+      topics.splice(index, 1);
+      saveTopicsToLocalStorage(topics);
+      renderTopics();
+      updateChart();
+    }
+
+    function saveTopicsToLocalStorage(topics) {
+      localStorage.setItem('topicList', JSON.stringify(topics));
+    }
+
+    function loadTopicsFromLocalStorage() {
+      const data = localStorage.getItem('topicList');
+      return data ? JSON.parse(data) : [];
+    }
+
+    function setDailyGoal() {
+      const goal = prompt('Aaj ka learning goal kya hai?');
+      if (goal) {
+        localStorage.setItem('dailyGoal', goal);
+        alert('Goal set: ' + goal);
+      }
+    }
+
+    function showDailyGoal() {
+      const goal = localStorage.getItem('dailyGoal');
+      if (goal) {
+        alert('👋 Aaj ka goal yaad hai?\n' + goal);
+      } else {
+        alert('Koi goal set nahi kiya abhi tak.');
+      }
+    }
+
+    function updateChart() {
+      const statusCounts = { 'Not Started': 0, 'In Progress': 0, 'Completed': 0 };
+      topics.forEach(topic => {
+        statusCounts[topic.status]++;
+      });
+
+      const ctx = document.getElementById('progressChart').getContext('2d');
+      if (window.chartInstance) window.chartInstance.destroy();
+      window.chartInstance = new Chart(ctx, {
+        type: 'pie',
+        data: {
+          labels: ['Not Started', 'In Progress', 'Completed'],
+          datasets: [{
+            data: [statusCounts['Not Started'], statusCounts['In Progress'], statusCounts['Completed']],
+            backgroundColor: ['#f44336', '#ff9800', '#4caf50']
+          }]
+        }
+      });
+    }
+  </script>
+</body>
+</html>

@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Upload Study Materials (No Backend)</title>
+<style>
+    @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap');
+
+    body {
+      font-family: 'Poppins', sans-serif;
+      margin: 0;
+      padding: 2rem;
+      background: linear-gradient(135deg, #e0f7fa, #f9fbe7);
+      color: #333;
+      background-image: url('img/book.jpeg');
+      background-size: cover;
+      
+    }
+
+    .upload-section {
+      max-width: 600px;
+      margin: auto;
+      background: #fff;
+      padding: 2rem;
+      border-radius: 16px;
+      box-shadow: 0 12px 20px rgba(0, 0, 0, 0.1);
+    }
+
+    h2 {
+      text-align: center;
+      color: #3f51b5;
+      font-size: 1.8rem;
+      margin-bottom: 1.5rem;
+    }
+
+    input[type="file"] {
+      display: block;
+      margin: 1.2rem auto;
+      padding: 0.5rem;
+      border: 2px dashed #90caf9;
+      border-radius: 8px;
+      background: #f0f4ff;
+      width: 100%;
+      transition: all 0.3s ease-in-out;
+    }
+
+    input[type="file"]:hover {
+      border-color: #3f51b5;
+      background: #e8f0fe;
+    }
+
+    ul.file-list {
+      list-style: none;
+      padding: 0;
+      margin-top: 1rem;
+    }
+
+    ul.file-list li {
+      background: #e3e9f4;
+      margin-bottom: 0.5rem;
+      padding: 0.8rem 1rem;
+      border-radius: 10px;
+      font-size: 0.95rem;
+      word-break: break-all;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      transition: background 0.2s ease-in-out;
+    }
+
+    ul.file-list li:hover {
+      background: #d0d9ec;
+    }
+
+    ul.file-list li::before {
+      content: "📄";
+      margin-right: 10px;
+    }
+
+    button.clear-btn {
+      display: block;
+      margin: 2rem auto 0;
+      padding: 0.8rem 2rem;
+      border: none;
+      background: linear-gradient(to right, #42a5f5, #1e88e5);
+      color: white;
+      font-size: 1rem;
+      font-weight: 600;
+      border-radius: 8px;
+      cursor: pointer;
+      box-shadow: 0 4px 10px rgba(66, 165, 245, 0.4);
+      transition: background 0.3s ease, transform 0.2s ease;
+    }
+
+    button.clear-btn:hover {
+      background: linear-gradient(to right, #1e88e5, #1565c0);
+      transform: scale(1.03);
+    }
+
+    button.remove {
+      margin-left: 10px;
+      cursor: pointer;
+      background: #e74c3c;
+      color: white;
+      border: none;
+      border-radius: 4px;
+      padding: 4px 8px;
+      font-size: 0.85rem;
+      transition: background 0.2s ease;
+    }
+
+    button.remove:hover {
+      background: #c0392b;
+    }
+  </style>
+</head>
+<body>
+
+<div class="upload-section">
+  <h2>Upload Assignments & Notes 📖</h2>
+  <input type="file" id="fileInput" multiple />
+  <ul class="file-list" id="fileList"></ul>
+  <button class="clear-btn" id="clearFilesBtn">Clear Files</button>
+</div>
+
+<script>
+  const fileInput = document.getElementById('fileInput');
+  const fileList = document.getElementById('fileList');
+  const clearBtn = document.getElementById('clearFilesBtn');
+
+  let storedFiles = [];
+
+  fileInput.addEventListener('change', (e) => {
+    const files = Array.from(e.target.files);
+    storedFiles = storedFiles.concat(files);
+    renderFileList();
+  });
+
+  function renderFileList() {
+    fileList.innerHTML = '';
+    storedFiles.forEach((file, index) => {
+      const li = document.createElement('li');
+      li.textContent = `${file.name} (${(file.size / 1024).toFixed(1)} KB);`
+      
+      // Optional: Add a remove button per file
+      const removeBtn = document.createElement('button');
+      removeBtn.textContent = 'Remove';
+      removeBtn.style.marginLeft = '10px';
+      removeBtn.style.cursor = 'pointer';
+      removeBtn.style.background = '#e74c3c';
+      removeBtn.style.color = 'white';
+      removeBtn.style.border = 'none';
+      removeBtn.style.borderRadius = '3px';
+      removeBtn.style.padding = '2px 6px';
+      removeBtn.onclick = () => {
+        storedFiles.splice(index, 1);
+        renderFileList();
+      };
+      li.appendChild(removeBtn);
+
+      fileList.appendChild(li);
+    });
+  }
+
+  clearBtn.addEventListener('click', () => {
+    storedFiles = [];
+    fileList.innerHTML = '';
+    fileInput.value = '';
+  });
+</script>
+
+</body>
+</html>

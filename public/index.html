@@ -1,0 +1,790 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>StudySync</title>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Nunito:ital,wght@0,200..1000;1,200..1000&family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&family=Ubuntu:ital,wght@0,300;0,400;0,500;0,700;1,300;1,400;1,500;1,700&family=Varela+Round&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+  <style>
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: 'Poppins', sans-serif;
+  scroll-behavior: smooth;
+}
+
+body {
+  background-color: #f8f9fa;
+  background-image: url(img/noise.png);
+  color: #222;
+}
+
+/* HEADER AND NAVIGATION */
+
+header {
+  background-color: white;
+  box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+  background: linear-gradient(to right, #cdebf9, #e0f7ff);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+}
+
+nav {
+  max-width: 1200px;
+  margin: auto;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 1rem 2rem;
+
+}
+
+.logo img{
+  border-radius: 50%;
+}
+
+nav .logo {
+  display: flex;
+  align-items: center;
+  gap: 0.8rem;
+}
+
+nav .logo img {
+  height: 40px;
+}
+
+nav .logo h1 {
+  font-size: 1.6rem;
+  color: #333;
+}
+
+nav ul {
+  display: flex;
+  list-style: none;
+  gap: 1.5rem;
+}
+
+nav ul li a {
+  text-decoration: none;
+  color: #555;
+  font-weight: 500;
+  transition: color 0.3s ease;
+}
+
+nav ul li a:hover {
+  color: #1e90ff;
+}
+
+nav .button a.contact {
+  background-color: #1e90ff;
+  color: white;
+  padding: 0.5rem 1.2rem;
+  border-radius: 25px;
+  text-decoration: none;
+  font-weight: 600;
+  transition: background-color 0.3s ease;
+}
+
+nav .button a.contact:hover {
+  background-color: #0066cc;
+}
+
+nav .menu img {
+  display: none;
+  height: 30px;
+  cursor: pointer;
+}
+
+/* MAIN CONTENT */
+
+main .content {
+  max-width: 1200px;
+  margin: 3rem auto;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 2rem;
+  padding: 0 1rem;
+}
+
+main .content .text {
+  flex: 1;
+}
+
+#p1 {
+  font-size: 1.1rem;
+  color: #666;
+  margin-bottom: 0.5rem;
+}
+
+#p2 {
+  font-size: 2.8rem;
+  font-weight: 700;
+  margin-bottom: 1rem;
+  color: #222;
+}
+
+#slideText {
+  opacity: 0;
+  transform: translateX(-100vw); /* Start far to the left */
+  transition: transform 1s ease-out, opacity 1s ease-out;
+}
+
+#slideText.animate {
+  transform: translateX(0); /* Final position */
+  opacity: 1;
+}
+
+#p3 {
+  font-size: 1.1rem;
+  color: #555;
+  line-height: 1.5;
+  margin-bottom: 1.5rem;
+  max-width: 520px;
+}
+
+.b1 {
+  display: flex;
+  gap: 1rem;
+}
+
+.b1 .s1 a, .b1 .s2 a {
+  padding: 0.7rem 1.8rem;
+  text-decoration: none;
+  border-radius: 25px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.b1 .s1 a {
+  background-color: #1e90ff;
+  color: white;
+}
+
+.b1 .s1 a:hover {
+  background-color: #0066cc;
+}
+
+.b1 .s2 a {
+  border: 2px solid #1e90ff;
+  color: #1e90ff;
+}
+
+.b1 .s2 a:hover {
+  background-color: #1e90ff;
+  color: white;
+}
+
+main .content .image {
+  flex: 1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.text {
+    animation: slideFromLeft 1s ease forwards;
+}
+@keyframes slideFromLeft {
+    0%{
+        transform: translateX(-100%);
+    }
+    100%{
+        transform: translateX(0);
+    }
+}
+
+.i1:hover{
+  transform:translateX(50px);
+  transition:2s;
+}
+
+.img-cont {
+  max-width: 100%;
+}
+
+.img-cont img.i1 {
+  width: 100%;
+  max-width: 450px;
+  border-radius: 10px;
+}
+
+/* SUBCONTENT: TRUSTED BY */
+
+.subcontent {
+  max-width: 1200px;
+  margin: 3rem auto;
+  text-align: center;
+}
+
+.subcontent h2 {
+  font-size: 2rem;
+  margin-bottom: 2rem;
+  color: #333;
+}
+
+.icons {
+  display: flex;
+  justify-content: center;
+  gap: 3rem;
+}
+
+.icons .icon {
+  font-size: 1.2rem;
+  color: #555;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.4rem;
+  cursor: pointer;
+  transition: color 0.3s ease;
+}
+
+.icons .icon i {
+  font-size: 2.4rem;
+}
+
+.icons .icon:hover {
+  color: #1e90ff;
+}
+
+/* COMPETITIVE ADVANTAGE CARDS */
+
+.foot {
+  max-width: 1200px;
+  margin: 3rem auto;
+  padding: 0 1rem;
+}
+
+.card-section {
+  text-align: center;
+  
+}
+
+.card-section .head h3 {
+  font-size: 2rem;
+  margin-bottom: 0.5rem;
+  color: #222;
+}
+
+.card-section .head #p0 {
+  font-size: 1rem;
+  color: #555;
+  max-width: 700px;
+  margin: 0 auto 2rem;
+  line-height: 1.5;
+}
+
+
+#c1{
+  background-color: #9ebee1;
+}
+
+#c2{
+  background-color:#ee7392;
+}
+#c3{
+  background-color: #fcbf58;
+}
+#c4{
+  background-color:#7fae6a;
+}
+#c5{
+  background-color: #57bbbe;
+}
+#c6{
+  background-color: #7d53e1;
+}
+
+
+
+
+.cards {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1.5rem;
+  justify-content: center;
+}
+
+.card {
+  background-color: white;
+  border-radius: 12px;
+  box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+  width: 280px;
+  padding: 1.5rem 1rem;
+  text-align: center;
+  transition: transform 0.3s ease;
+  cursor: default;
+}
+
+.card:hover {
+  transform: translateY(-5px);
+}
+
+.af {
+  font-size: 3rem;
+  color: #1e90ff;
+  margin-bottom: 1rem;
+}
+
+.card h4 {
+  font-size: 1.2rem;
+  margin-bottom: 0.8rem;
+  color: #222;
+}
+
+.card .p9 {
+  font-size: 1rem;
+  color: #555;
+  line-height: 1.4;
+}
+
+/* REVIEWS SECTION */
+
+.review-section {
+  max-width: 1200px;
+  margin: 3rem auto;
+  padding: 0 1rem;
+}
+
+.test .h {
+  font-size: 2rem;
+  text-align: center;
+  margin-bottom: 2rem;
+  color: #222;
+}
+
+.review-container {
+  display: flex;
+  gap: 1.5rem;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+.review {
+  background-color: white;
+  padding: 1.5rem;
+  border-radius: 12px;
+  box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+  width: 280px;
+  text-align: center;
+  position: relative;
+}
+
+.review p:first-child {
+  font-style: italic;
+  color: #555;
+  margin-bottom: 1rem;
+  min-height: 80px;
+}
+
+.review .pic i.fa-user-circle {
+  font-size: 3rem;
+  color: #1e90ff;
+  margin-bottom: 0.5rem;
+}
+
+.review .name {
+  font-weight: 600;
+  color: #222;
+  margin-bottom: 0.3rem;
+}
+
+/* NEWSLETTER SECTION */
+
+.news {
+  max-width: 1200px;
+  margin: 3rem auto;
+  padding: 0 1rem;
+}
+
+.newsletter {
+  display: flex;
+  align-items: center;
+  gap: 2rem;
+  background-color: white;
+  padding: 2rem;
+  border-radius: 12px;
+  box-shadow: 0 3px 10px rgba(0,0,0,0.1);
+}
+
+.newsimg img {
+  max-width: 250px;
+  border-radius: 12px;
+}
+
+.newstext .khabar h2 {
+  font-size: 1.8rem;
+  margin-bottom: 0.4rem;
+  color: #222;
+}
+
+.newstext .khabar p {
+  font-size: 1rem;
+  color: #555;
+  margin-bottom: 1rem;
+}
+
+.newstext form {
+  display: flex;
+  gap: 1rem;
+  margin-bottom: 0.8rem;
+}
+
+.newstext form input[type="email"] {
+  padding: 0.6rem 1rem;
+  border: 1px solid #ccc;
+  border-radius: 25px;
+  flex-grow: 1;
+  font-size: 1rem;
+}
+
+.newstext form button {
+  background-color: #1e90ff;
+  color: white;
+  border: none;
+  padding: 0.6rem 1.5rem;
+  border-radius: 25px;
+  cursor: pointer;
+  font-weight: 600;
+  transition: background-color 0.3s ease;
+}
+
+.newstext form button:hover {
+  background-color: #0066cc;
+}
+
+.newstext p a {
+  color: #1e90ff;
+  text-decoration: none;
+}
+
+.newstext p a:hover {
+  text-decoration: underline;
+}
+
+/* FOOTER */
+
+footer {
+  background-color: #f2f2f2;
+  color: #080808;
+  padding: 2rem 1rem;
+  text-align: center;
+}
+
+footer .footer-section {
+  max-width: 1200px;
+  margin: auto;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  gap: 2rem;
+  align-items: center;
+}
+
+footer .logo {
+  display: flex;
+  align-items: center;
+  gap: 0.8rem;
+}
+
+footer .logo img {
+  height: 40px;
+}
+
+footer .logo h1 {
+  color: black;
+  font-size: 1.5rem;
+}
+
+#p8 {
+  font-size: 1rem;
+  margin-top: 0.2rem;
+  color: #aaa;
+}
+
+#ic-tab {
+  display: flex;
+  gap: 1rem;
+  margin-top: 0.5rem;
+}
+
+#ic-tab .ic {
+  background-color: #444;
+  border-radius: 50%;
+  padding: 0.6rem;
+  cursor: pointer;
+  color: white;
+  transition: background-color 0.3s ease;
+}
+
+#ic-tab .ic:hover {
+  background-color: #1e90ff;
+}
+.top{
+  max-width: 100vw;
+}
+
+.footer-section{
+  display: flex;
+}
+.lists{
+  display: flex;
+}
+.list-item ul{
+  list-style-type: none;
+}
+
+
+/* RESPONSIVE */
+
+@media (max-width: 900px) {
+  main .content {
+    flex-direction: column;
+  }
+
+  .newsletter {
+    flex-direction: column;
+    text-align: center;
+  }
+
+  .newsletter .newsimg img {
+    margin: 0 auto;
+  }
+
+  nav ul {
+    display: none;
+  }
+
+  nav .menu img {
+    display: block;
+  }
+}
+
+/* footer here */
+
+  </style>
+</head>
+<body>
+  <header>
+    <nav>
+      <div class="logo">
+        <img src="img/logo.jpeg">
+        <h1>StudySync</h1>
+      </div>
+      <ul>
+        <li><a href="#Home">Home</a></li>
+        <li><a href="#Features">Features</a></li>
+        <li><a href="./studymaterial">Study Material</a></li>
+        <li><a href="#blog">Blogs</a></li>
+      
+      </ul>
+      <div class="button">
+        <a href="#Contact" class="contact">Contact Us</a>
+      </div>
+      <div class="menu">
+        <img src="img/icon.jpg">
+      </div>
+    </nav>
+  </header>
+
+  <main>
+    <div class="content">
+      <div class="text">
+        <p id="p1">Very proud to introduce</p>
+        <p id="p2" class="slide">Unlock Your Potential Step-by-Step</p>
+        <p id="p3">
+          StudySync is an interactive platform that helps users track their learning progress, set personalized goals, earn achievement badges, and stay motivated by visualizing milestones and accomplishments throughout their educational journey. It encourages consistent learning and skill development.
+        </p>
+        <div class="b1">
+          <div class="s1">
+            <a href="./dashboard" id="p4">Start Now</a>
+          </div>
+          <div class="s2">
+            <a href="/chatbot" id="p5">💬 Chat with LearnBot</a>
+          </div>
+        </div>
+      </div>
+      <div class="image">
+        <div class="img-cont">
+          <img class="i1" src="img/img2.jpg">
+        </div>
+      </div>
+    </div>
+
+    <div class="subcontent">
+      <h2>Trusted by the Best</h2>
+      <div class="icons">
+        <div class="icon"><i class="fab fa-linkedin-in"></i>LinkedIn</div>
+        <div class="icon"><i class="fab fa-facebook-f"></i>FaceBook</div>
+        <div class="icon"><i class="fab fa-instagram"></i>Instagram</div>
+        <div class="icon"><i class="fas fa-envelope"></i>E-Mail</div>
+      </div>
+    </div>
+
+    <div class="foot">
+      <div class="card-section" id="Features">
+        <div class="head">
+          <h3>Our Competitive Advantage</h3>
+          <p id="p0">
+            This is a section of some simple filler text, also known as placeholder
+            text. It shares some characteristics of real written text but is random
+            or otherwise generated.
+          </p>
+        </div>
+        <div class="cards">
+          <div class="card" id="c1">
+            <div class="af"><i class="fa fa-graduation-cap" aria-hidden="true"></i></div>
+            <h4>Personalized Learning</h4>
+            <p class="p9">
+              Offer tailored learning experience through AI and machine learning 
+              to cater to individual student needs.
+            </p>
+          </div>
+          <div class="card" id="c2">
+            <div class="af"><i class="fa fa-credit-card-alt" aria-hidden="true"></i></div>
+            <h4>Affordability</h4>
+            <p class="p9">
+              Provide high-quality education at an affordable price point, making
+              it accessible to a broader audience.
+            </p>
+          </div>
+          <div class="card" id="c3">
+            <div class="af"><i class="fa fa-industry" aria-hidden="true"></i></div>
+            <h4>Course Recommendations</h4>
+            <p class="p9">
+              Explore recommended courses that align with your goals and achievements. Focus on what matters most to your growth with adaptive learning plans.
+            </p>
+          </div>
+          <div class="card" id="c4">
+            <div class="af"><i class="fa fa-desktop" aria-hidden="true"></i></div>
+            <h4>Innovative Technology</h4>
+            <p class="p9">
+              Utilize cutting-edge technology, such as augmented reality or virtual
+              reality, to create immersive learning experiences.
+            </p>
+          </div>
+          <div class="card" id="c5">
+            <div class="af"><i class="fa fa-phone-square" aria-hidden="true"></i></div>
+            <h4>Responsive Support</h4>
+            <p class="p9">
+              Use ChatBot for your Personalized Support!
+            </p>
+          </div>
+          <div class="card" id="c6">
+            <div class="af"><i class="fa fa-bar-chart" aria-hidden="true"></i></div>
+            <h4>Analytics and Insights</h4>
+            <p class="p9">
+              Offer detailed progress tracking and analytics to help students and 
+              teachers monitor performance and make data-driven decisions.
+            </p>
+          </div>
+        </div>
+      </div>
+    </div> 
+
+    <div class="review-section" id="blog">
+      <div class="test" >
+        <div class="h">What Others Say About Us</div>
+        <div class="review-container">
+          <div class="review">    
+            <p>"StudySync revolutionized my classroom! Engaging content and teacher
+              resources make learning enjoyable. Highly recommended for educators."</p>
+            <p class="pic"><i class="fa fa-user-circle" aria-hidden="true"></i></p>
+            <p class="name">Sarah Johnson</p>
+            <p>8th Grade English Teacher</p>
+          </div>
+          <div class="review">
+            <p>"StudySync transformed our family's learning journey. Safe, interactive, 
+              and progress tracking features are invaluable for parents."</p>
+            <p class="pic"><i class="fa fa-user-circle" aria-hidden="true"></i></p>
+            <p class="name">Mark Davis</p>
+            <p>Parent</p>
+          </div>
+          <div class="review">
+            <p>"StudySync, a true game-changer! Flexible content, tailored assessments, 
+              and excellent support. Integral to our school district's success."</p>
+            <p class="pic"><i class="fa fa-user-circle" aria-hidden="true"></i></p>
+            <p class="name">Dr. James Carter</p>
+            <p>School Administrator</p>
+          </div>
+        </div>
+      </div> 
+    </div>
+
+   
+    </div>
+  </main>
+
+  <footer id="Contact">
+    <div class="footer-section">
+      <div class="top">
+        <div class="handles">
+          <div class="logo">
+            <img src="img/logo.jpeg">
+            <h1>StudySync</h1>
+          </div>
+          <div class="icon-holder">
+            <div class="side"><p id="p8">Seamless learning for Brighter Future</p></div>
+            <div id="ic-tab">
+              <div class="ic"><i class="fab fa-linkedin-in"></i></div>
+              <div class="ic"><i class="fab fa-facebook-f"></i></div>
+              <div class="ic"><i class="fab fa-instagram"></i></div>
+              <div class="ic"><i class="fas fa-envelope"></i></div>
+            </div>
+          </div>
+        </div>
+        <div class="lists">
+          <div class="list-item">
+              <h4>Products</h4>
+              <ul>
+                  <li><a href="#">Overview</a></li>
+                  <li><a href="#">Solutions</a></li>
+                  <li><a href="#">Pricing</a></li>
+                  <li><a href="#">Customers</a></li>
+              </ul>
+          </div>
+          <div class="list-item">
+              <h4>Company</h4>
+              <ul>
+                  <li><a href="#">About</a></li>
+                  <li><a href="#">Investor</a></li>
+                  <li><a href="#">Job</a></li>
+                  <li><a href="#">Press</a></li>
+                  <li><a href="#">Blog</a></li>
+              </ul>
+          </div>
+          <div class="list-item">
+              <h4>Support</h4>
+              <ul>
+                  <li><a href="#">Contact</a></li>
+                  <li><a href="#">Documentation</a></li>
+                  <li><a href="#">Chat</a></li>
+                  <li><a href="#">FAQ</a></li>
+              </ul>
+          </div>
+          <div class="list-item">
+              <ul>
+                  <h4>Legal</h4>
+                  <li><a href="#">Terms of Services</a></li>
+                  <li><a href="#">Privacy Policy</a></li>
+                  <li><a href="#">Cookie Settings</a></li>
+              </ul>
+          </div>
+      </div>
+  </div>
+  <div class="bottom">
+      <p>
+          &#169 2021 - Present StudySync. All rights reserved.
+      </p>
+  </div>
+</div>
+</footer>
+</body>
+</html>
