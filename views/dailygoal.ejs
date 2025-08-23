@@ -3,135 +3,447 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>SetGoal</title>
-    <link rel="stylesheet" href="style2.css">
-    <link href="https://fonts.googleapis.com/css2?family=Nunito:ital,wght@0,200..1000;1,200..1000&family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&family=Ubuntu:ital,wght@0,300;0,400;0,500;0,700;1,300;1,400;1,500;1,700&family=Varela+Round&display=swap" rel="stylesheet">
+    <title>Set Goals - StudySync</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
 
-<style>
-    /* Apply font and base styling */
-body {
-  font-family: 'Poppins', Tahoma, Geneva, Verdana, sans-serif;
-  background-color: #f9f9f9;
-  color: #333;
-  padding: 1rem;
-  margin: 0;
-  background-image: url(img/noise.png);
-}
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            background-image: url('/img/noise.png');
+            min-height: 100vh;
+            padding: 2rem;
+            color: #333;
+        }
 
-/* Goal Reminder Card */
-#goal-reminder {
-  background-color: #ffffff;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-  padding: 2rem;
-  border-radius: 12px;
-  border: none;
-  max-width: 420px;
-  margin: 2rem auto;
-}
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+        }
 
-/* Heading */
-#goal-reminder h1 {
-  font-size: 1.6rem;
-  color: #1e90ff;
-  margin-bottom: 1rem;
-  text-align: center;
-}
+        .header {
+            text-align: center;
+            margin-bottom: 3rem;
+            color: rgb(51, 10, 90);
+        }
 
-/* Labels and Inputs */
-#goal-reminder label {
-  font-weight: 600;
-  color: #555;
-  display: block;
-  margin-bottom: 0.3rem;
-}
+        .header h1 {
+            font-size: 3rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+            text-shadow: 0 2px 10px rgba(0,0,0,0.3);
+        }
 
-#goal-reminder input[type="text"] {
-  padding: 0.6rem 1rem;
-  width: 100%;
-  border: 1px solid #ccc;
-  border-radius: 8px;
-  margin-bottom: 1rem;
-  font-size: 1rem;
-  transition: border-color 0.3s;
-}
+        .header p {
+            font-size: 1.2rem;
+            opacity: 0.9;
+            font-weight: 300;
+        }
 
-#goal-reminder input[type="text"]:focus {
-  outline: none;
-  border-color: #1e90ff;
-}
+        .goals-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 2rem;
+            margin-bottom: 3rem;
+        }
 
-/* Save Button */
-#goal-reminder button {
-  background-color: #1e90ff;
-  color: white;
-  border: none;
-  padding: 0.6rem 1.2rem;
-  font-size: 1rem;
-  border-radius: 8px;
-  cursor: pointer;
-  transition: background-color 0.3s;
-}
+        .goal-card {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            padding: 2.5rem;
+            border-radius: 25px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+            transition: all 0.3s ease;
+        }
 
-#goal-reminder button:hover {
-  background-color: #0066cc;
-}
+        .goal-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 25px 50px rgba(0,0,0,0.15);
+        }
 
-/* Divider */
-#goal-reminder hr {
-  margin: 2rem 0;
-  border: none;
-  border-top: 1px solid #eee;
-}
+        .goal-card h2 {
+            font-size: 1.8rem;
+            color: #667eea;
+            margin-bottom: 1.5rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
 
-/* Current Goals Section */
-#goal-reminder h4 {
-  font-size: 1.2rem;
-  margin-bottom: 1rem;
-  color: #333;
-}
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
 
-#goal-reminder p {
-  margin: 0.5rem 0;
-  font-size: 1rem;
-}
+        .form-group label {
+            display: block;
+            font-weight: 600;
+            color: #555;
+            margin-bottom: 0.8rem;
+            font-size: 1.1rem;
+        }
 
-#goal-reminder span {
-  color: #333;
-  font-weight: 500;
-}
+        .form-group input {
+            width: 100%;
+            padding: 1rem 1.5rem;
+            font-size: 1rem;
+            border: 2px solid #e1e5e9;
+            border-radius: 15px;
+            background: white;
+            transition: all 0.3s ease;
+        }
 
-</style>
+        .form-group input:focus {
+            outline: none;
+            border-color: #667eea;
+            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+            transform: translateY(-2px);
+        }
+
+        .form-group textarea {
+            width: 100%;
+            padding: 1rem 1.5rem;
+            font-size: 1rem;
+            border: 2px solid #e1e5e9;
+            border-radius: 15px;
+            background: white;
+            transition: all 0.3s ease;
+            resize: vertical;
+            min-height: 100px;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        .form-group textarea:focus {
+            outline: none;
+            border-color: #667eea;
+            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+            transform: translateY(-2px);
+        }
+
+        .btn-save {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            padding: 1rem 2rem;
+            font-size: 1.1rem;
+            font-weight: 600;
+            border-radius: 15px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            width: 100%;
+            margin-top: 1rem;
+        }
+
+        .btn-save:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 25px rgba(102, 126, 234, 0.3);
+        }
+
+        .current-goals {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            padding: 2.5rem;
+            border-radius: 25px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+        }
+
+        .current-goals h2 {
+            font-size: 2rem;
+            color: #667eea;
+            margin-bottom: 2rem;
+            text-align: center;
+        }
+
+        .goal-item {
+            background: white;
+            padding: 1.5rem;
+            border-radius: 15px;
+            margin-bottom: 1rem;
+            border-left: 4px solid #667eea;
+            transition: all 0.3s ease;
+        }
+
+        .goal-item:hover {
+            transform: translateX(5px);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+
+        .goal-item h3 {
+            color: #333;
+            margin-bottom: 0.5rem;
+            font-size: 1.2rem;
+        }
+
+        .goal-item p {
+            color: #666;
+            line-height: 1.6;
+        }
+
+        .goal-item .date {
+            color: #999;
+            font-size: 0.9rem;
+            margin-top: 0.5rem;
+        }
+
+        .progress-section {
+            margin-top: 2rem;
+        }
+
+        .progress-item {
+            margin-bottom: 1.5rem;
+        }
+
+        .progress-label {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 0.5rem;
+            font-weight: 500;
+        }
+
+        .progress-bar {
+            height: 8px;
+            background: #f0f0f0;
+            border-radius: 4px;
+            overflow: hidden;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #667eea, #764ba2);
+            border-radius: 4px;
+            transition: width 0.5s ease;
+            width: 0%;
+        }
+
+        .empty-state {
+            text-align: center;
+            color: #999;
+            padding: 2rem;
+        }
+
+        .empty-state .icon {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+            opacity: 0.5;
+        }
+
+        @media (max-width: 768px) {
+            .goals-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .header h1 {
+                font-size: 2rem;
+            }
+            
+            .goal-card, .current-goals {
+                padding: 1.5rem;
+            }
+        }
+
+        .success-message {
+            background: linear-gradient(135deg, #4CAF50, #45a049);
+            color: white;
+            padding: 1rem 2rem;
+            border-radius: 15px;
+            margin: 1rem 0;
+            text-align: center;
+            font-weight: 500;
+            opacity: 0;
+            transform: translateY(-20px);
+            transition: all 0.3s ease;
+        }
+
+        .success-message.show {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    </style>
 </head>
-
 <body>
-    <div id="goal-reminder" style="max-width:400px;margin:20px auto;padding:20px;border:1px solid #ccc;border-radius:8px;">
-  <h1>🗓️Daily & Weekly Goals</h1>
+    <div class="container">
+        <div class="header">
+            <h1>Set Your Goals</h1>
+            <p>Plan your learning journey and track your progress</p>
+        </div>
 
-  <div>
-    <label for="dailyGoal">Daily Goal:</label><br>
-    <input type="text" id="dailyGoal" placeholder="Enter today's goal" style="width:90%;margin-bottom:10px;"><br>
-    
-    <label for="weeklyGoal">Weekly Goal:</label><br>
-    <input type="text" id="weeklyGoal" placeholder="Enter this week's goal" style="width:90%;margin-bottom:10px;"><br>
-    
-    <button onclick="saveGoals()">💾 Save Goals</button>
-  </div>
+        <div class="goals-grid">
+            <div class="goal-card">
+                <h2>📅 Daily Goal</h2>
+                <form id="dailyGoalForm">
+                    <div class="form-group">
+                        <label for="dailyGoalTitle">Goal Title</label>
+                        <input type="text" id="dailyGoalTitle" placeholder="e.g., Complete 3 math lessons" />
+                    </div>
+                    <div class="form-group">
+                        <label for="dailyGoalDescription">Description</label>
+                        <textarea id="dailyGoalDescription" placeholder="Describe what you want to achieve today..."></textarea>
+                    </div>
+                    <button type="submit" class="btn-save">💾 Save Daily Goal</button>
+                </form>
+            </div>
 
-  <hr>
+            <div class="goal-card">
+                <h2>📊 Weekly Goal</h2>
+                <form id="weeklyGoalForm">
+                    <div class="form-group">
+                        <label for="weeklyGoalTitle">Goal Title</label>
+                        <input type="text" id="weeklyGoalTitle" placeholder="e.g., Master algebra basics" />
+                    </div>
+                    <div class="form-group">
+                        <label for="weeklyGoalDescription">Description</label>
+                        <textarea id="weeklyGoalDescription" placeholder="Describe your weekly learning objectives..."></textarea>
+                    </div>
+                    <button type="submit" class="btn-save">�� Save Weekly Goal</button>
+                </form>
+            </div>
+        </div>
 
-  <div>
-    <h4>📌 Current Goals</h4>
-    <p><strong>Today:</strong> <span id="dailyDisplay">None</span></p>
-    <p><strong>This Week:</strong> <span id="weeklyDisplay">None</span></p>
-  </div>
+        <div class="current-goals">
+            <h2>📌 Current Goals</h2>
+            <div id="goalsDisplay">
+                <div class="empty-state">
+                    <div class="icon">🎯</div>
+                    <p>No goals set yet. Start by setting your first goal above!</p>
+                </div>
+            </div>
 
-</div>
-<script>
-    function saveGoals() {
-      const dailyGoal = document.getElementById("dailyGoal").value;
-      const weeklyGoal = document.getElementById("weeklyGoal").value;
-  
-      document.getElementById("dailyDisplay").textContent = dailyGoal || "None";
-      document.getElementById("weeklyDisplay").textContent = weeklyGoal || "None";
-    }
-  </script>
+            <div class="progress-section">
+                <h3>📈 Progress Tracking</h3>
+                <div class="progress-item">
+                    <div class="progress-label">
+                        <span>Daily Goal Progress</span>
+                        <span id="dailyProgress">0%</span>
+                    </div>
+                    <div class="progress-bar">
+                        <div class="progress-fill" id="dailyProgressBar"></div>
+                    </div>
+                </div>
+                <div class="progress-item">
+                    <div class="progress-label">
+                        <span>Weekly Goal Progress</span>
+                        <span id="weeklyProgress">0%</span>
+                    </div>
+                    <div class="progress-bar">
+                        <div class="progress-fill" id="weeklyProgressBar"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div id="successMessage" class="success-message"></div>
+    </div>
+
+    <script>
+        let goals = {
+            daily: null,
+            weekly: null
+        };
+
+        function showSuccessMessage(message) {
+            const successMsg = document.getElementById('successMessage');
+            successMsg.textContent = message;
+            successMsg.classList.add('show');
+            setTimeout(() => {
+                successMsg.classList.remove('show');
+            }, 3000);
+        }
+
+        function updateGoalsDisplay() {
+            const goalsDisplay = document.getElementById('goalsDisplay');
+            
+            if (!goals.daily && !goals.weekly) {
+                goalsDisplay.innerHTML = `
+                    <div class="empty-state">
+                        <div class="icon">🎯</div>
+                        <p>No goals set yet. Start by setting your first goal above!</p>
+                    </div>
+                `;
+                return;
+            }
+
+            let html = '';
+            
+            if (goals.daily) {
+                html += `
+                    <div class="goal-item">
+                        <h3>�� Today's Goal</h3>
+                        <p><strong>${goals.daily.title}</strong></p>
+                        <p>${goals.daily.description}</p>
+                        <div class="date">Set on: ${goals.daily.date}</div>
+                    </div>
+                `;
+            }
+            
+            if (goals.weekly) {
+                html += `
+                    <div class="goal-item">
+                        <h3>�� This Week's Goal</h3>
+                        <p><strong>${goals.weekly.title}</strong></p>
+                        <p>${goals.weekly.description}</p>
+                        <div class="date">Set on: ${goals.weekly.date}</div>
+                    </div>
+                `;
+            }
+            
+            goalsDisplay.innerHTML = html;
+        }
+
+        function updateProgress() {
+            const dailyProgress = goals.daily ? Math.min(Math.random() * 100, 100) : 0;
+            const weeklyProgress = goals.weekly ? Math.min(Math.random() * 100, 100) : 0;
+            
+            document.getElementById('dailyProgress').textContent = Math.round(dailyProgress) + '%';
+            document.getElementById('weeklyProgress').textContent = Math.round(weeklyProgress) + '%';
+            document.getElementById('dailyProgressBar').style.width = dailyProgress + '%';
+            document.getElementById('weeklyProgressBar').style.width = weeklyProgress + '%';
+        }
+
+        document.getElementById('dailyGoalForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            const title = document.getElementById('dailyGoalTitle').value;
+            const description = document.getElementById('dailyGoalDescription').value;
+            
+            if (title && description) {
+                goals.daily = {
+                    title: title,
+                    description: description,
+                    date: new Date().toLocaleDateString()
+                };
+                
+                updateGoalsDisplay();
+                updateProgress();
+                showSuccessMessage('🎉 Daily goal saved successfully!');
+                
+                // Clear form
+                this.reset();
+            }
+        });
+
+        document.getElementById('weeklyGoalForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            const title = document.getElementById('weeklyGoalTitle').value;
+            const description = document.getElementById('weeklyGoalDescription').value;
+            
+            if (title && description) {
+                goals.weekly = {
+                    title: title,
+                    description: description,
+                    date: new Date().toLocaleDateString()
+                };
+                
+                updateGoalsDisplay();
+                updateProgress();
+                showSuccessMessage('🎉 Weekly goal saved successfully!');
+                this.reset();
+            }
+        });
+        updateGoalsDisplay();
+        updateProgress();
+    </script>
+</body>
+</html>

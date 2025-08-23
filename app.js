@@ -1,3 +1,5 @@
+require('dotenv').config();
+
 const express = require('express');
 const mongoose = require('mongoose');
 const path = require('path');
@@ -16,18 +18,22 @@ app.set('view engine', 'ejs');
 app.set('views', path.join(__dirname, 'views'));
 
 // MongoDB connection
-mongoose.connect('mongodb://127.0.0.1:27017/learntracker', {
+mongoose.connect(process.env.MONGODB_URI,  {
   useNewUrlParser: true,
   useUnifiedTopology: true
-}).then(() => console.log("Connected to MongoDB"))
-  .catch(err => console.error("MongoDB connection error:", err));
+}).then(() => console.log("Connected to MongoDB Atlas"))
+  .catch(err => console.error("MongoDB Atlas connection error:", err));
 
 // Routes
 app.use('/api/user', userRoutes);
+app.use('/', require('./routes/auth'));
 
 app.get('/dashboard', (req, res) => {
-  const name = req.query.name || 'User';
-  res.render('dashboard', { name });
+  const username = req.query.username;
+  res.render('dashboard', { 
+      username: username,
+      title: 'Dashboard - StudySync'
+  });
 });
 
 app.get('/chatbot', (req, res) => {
@@ -48,7 +54,10 @@ app.get('/earnbadges', (req, res) => {
   res.render('earnbadges')
 });
 app.get('/updateprofile', (req, res) => {
-  res.render('updateprofile')
+  res.render('updateprofile', { 
+    title: 'Update Profile',
+    username: req.query.username || req.params.username || 'User'
+});
 });
 
 app.listen(PORT, () => {
